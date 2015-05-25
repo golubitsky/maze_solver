@@ -19,7 +19,11 @@
   MazeView.prototype._reset = function () {
     var cells = document.querySelectorAll('[data-x][data-y]');
     Array.prototype.forEach.call(cells, function (el) {
-      el.style.background = 'black';
+      ['current','seen','explored'].forEach(function (klass) {
+        el.className = el.className.replace( new RegExp(klass) , '' );
+      });
+      //reset path colors
+      el.style.background = null;
     });
   }
 
@@ -73,9 +77,12 @@
   }
 
   MazeView.prototype.renderPath = function (y, x) {
+    console.log(y,x)
     this.maze.countSteps(y,x);
+    console.log(maze.numberOfSteps);
     var startColor = mazeSolver.endDiv.style.background;
     this.colors = mazeSolver.stepColors('#000000','#FFFF00', this.maze.numberOfSteps);
+    console.log(this.colors);
     this.rendering = true;
     var cell = this.maze.dataStore[y][x];
     var el;
@@ -93,10 +100,10 @@
   }
 
   MazeView.prototype._goToNextCell = function (cell) {
-    this.count++;
-
-    el = document.querySelector('[data-x="' + cell.x + '"][data-y="' + cell.y + '"]')
+    el = document.querySelector('[data-x="' + cell.x + '"][data-y="' + cell.y + '"]');
     el.style.background = this.colors[this.count];
+
+    this.count++;
     return cell.parent;
   }
 }());

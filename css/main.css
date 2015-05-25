@@ -110,6 +110,24 @@ body {
   transition: background 0.5s ease;
 }
 
+#maze div.current {
+  background: #fff;
+}
+
+#maze div.seen {
+  background: #777;
+}
+
+#maze div.explored {
+  background: #aaa;
+}
+
+#maze div.start {
+}
+
+#maze div.end {
+}
+
 #maze .left-open {
   border-left-style: none;
 }

@@ -37,6 +37,10 @@
     var y = e.target.getAttribute('data-y');
 
     if (mazeSolver.startCoord) {
+      if (mazeSolver.startCoord[0] == y && mazeSolver.startCoord[1] == x) {
+        document.getElementById('click-message').innerHTML = "Please choose a destination away from your starting point...";
+        return;
+      }
       mazeSolver.endCoord = [y, x];
       mazeSolver.endDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
     } else {
@@ -55,10 +59,10 @@
 
     events.disableButtons();
     document.getElementById('click-message').innerHTML = 'Solving, please stand by...';
-    mazeSolver.maze.solve(mazeSolver.endCoord[0], mazeSolver.endCoord[1]);
-    mazeSolver.view.renderPath(mazeSolver.startCoord[0], mazeSolver.startCoord[1]);
-    mazeSolver.startCoord = null;
-    mazeSolver.endCoord = null;
+    mazeSolver.maze.solveAsync(mazeSolver.endCoord[0], mazeSolver.endCoord[1]);
+    // mazeSolver.view.renderPath(mazeSolver.startCoord[0], mazeSolver.startCoord[1]);
+    // mazeSolver.startCoord = null;
+    // mazeSolver.endCoord = null;
   }
 
   events.disableButtons = function () {
