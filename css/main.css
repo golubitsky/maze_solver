@@ -54,13 +54,22 @@ body {
   color: #eee;
   font-family: Fredoka One;
   background: #291515;
+  text-align: center;
+}
+
+#content {
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
 }
 
 /*controls*/
+h1 {
+  width: 200px;
+}
 #controls {
-  width: 500px;
-  margin: 0 auto;
-  text-align: center;
+  width: 200px;
+  margin: 10px auto;
 }
 
 #controls * {
@@ -103,7 +112,8 @@ body {
 /*maze*/
 
 #maze {
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+  margin-left: 20px;
   opacity: 0;
   transition: opacity 0.25s ease;
   border: 5px solid #A30000;

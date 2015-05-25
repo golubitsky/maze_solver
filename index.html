@@ -21,19 +21,22 @@
 </head>
 
 <body>
-  <div id="controls">
-    <div class="slider-container">
-      <div id="x-slider"></div><div class="dimension-label">X size:</div><div id="x-dimension-value" class="label"></div>
+  <div id="content">
+    <div id="controls">
+      <h1>Maze Generator/Solver</h1>
+      <div id="click-message">Click any two locations in the maze to find the shortest path between them!</div>
+      <span id="generate-random" class="button">Generate a totally random maze</span>
+      <span id="generate" class="button">Generate a maze using dimensions set via sliders</span>
+      <div class="slider-container">
+        <div id="x-slider"></div><div class="dimension-label">X size:</div><div id="x-dimension-value" class="label"></div>
+      </div>
+      <div class="slider-container">
+        <div id="y-slider"></div><div class="dimension-label">Y size:</div><div id="y-dimension-value" class="label"></div>
+      </div>
     </div>
-    <div class="slider-container">
-      <div id="y-slider"></div><div class="dimension-label">Y size:</div><div id="y-dimension-value" class="label"></div>
-    </div>
-    <span id="generate" class="button">Generate a maze using dimensions set via sliders</span>
-    <span id="generate-random" class="button">Generate a totally random maze</span>
-  </div>
 
-  <div id="click-message">Click any two locations in the maze to find the shortest path between them!</div>
-  <div id="maze">
+    <div id="maze">
+    </div>
   </div>
 
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
