@@ -48,13 +48,50 @@ table {
   border-spacing: 0;
 }
 
+/*main*/
+
+body {
+  color: white;
+  font-family: Fredoka One;
+  background: #291515;
+}
+
 /*controls*/
 #controls {
-  width: 200px;
+  width: 500px;
   margin: 0 auto;
+  text-align: center;
 }
+
 #controls * {
+  /*display: block;*/
+}
+
+.button {
+  margin: 10px;
+  font-size: 15px;
+  font-family: Fredoka One;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  display: inline-block;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.label {
+  width: 25%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#click-message {
   display: block;
+  text-align: center;
+  margin-bottom: 10px;
+  color: yellow;
 }
 /*maze*/
 
@@ -95,13 +132,31 @@ table {
 
 /*slider*/
 
-.ui-slider .ui-slider-handle {
-    /*height: 40px;*/
-    width: 5px;
-    /*padding-left: 5px; //add this*/
+.slider-container {
+  width: 100%;
+  display: block;
+  vertical-align: middle;
+}
+
+.ui-slider {
+  width: 70%;
+  clear: both;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .ui-slider .ui-slider-handle {
-    width: 12px;
-    margin-left: -6px; //add this
+  width: 12px;
+  margin-left: -6px; //used to center slider on click
+}
+
+.ui-slider-handle:hover {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+.ui-slider-handle:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
 }

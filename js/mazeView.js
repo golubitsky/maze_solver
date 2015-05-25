@@ -86,10 +86,8 @@
       if (!cell) {
         clearInterval(pathTrace);
         this.rendering = false;
-        solveButton = document.getElementById('solve');
-        solveButton.innerHTML = 'Solve Maze!';
         mazeSolver.events.enableButtons();
-        document.getElementById('click-message').innerHTML = "Click anywhere in the maze to select a starting point.";
+        document.getElementById('click-message').innerHTML = "Click any two locations in the maze to find the shortest path between them!";
       }
     }.bind(this), 50);
   }

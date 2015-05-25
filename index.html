@@ -9,6 +9,7 @@
   <meta name="author" content="Mike Golubitsky">
 
   <!-- load jQuery slider stylesheet -->
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Fredoka+One' type='text/css'>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <link rel="stylesheet" href="css/main.css">
   <!--[if lt IE 9]>
@@ -18,16 +19,17 @@
 
 <body>
   <div id="controls">
-    <button id="generate">Generate Maze!</button>
-    <button id="generate-random">Generate Random Maze!</button>
-    <button id="solve">Solve Maze!</button>
-    <div id="x-slider"></div>
-    <div id="y-slider"></div>
-    <div id="x-dimension-value" style="color:#777;font-size:20px;text-align:center;"></div>
-    <div id="y-dimension-value" style="color:#777;font-size:20px;text-align:center;"></div>
+    <div class="slider-container">
+      <div id="x-slider"></div><div class="dimension-label">X size:</div><div id="x-dimension-value" class="label"></div>
+    </div>
+    <div class="slider-container">
+      <div id="y-slider"></div><div class="dimension-label">Y size:</div><div id="y-dimension-value" class="label"></div>
+    </div>
+    <span id="generate" class="button">Generate a maze using dimensions set via sliders</span>
+    <span id="generate-random" class="button">Generate a totally random maze</span>
   </div>
 
-  <div id="click-message">Click anywhere in the maze to select a starting point.</div>
+  <div id="click-message">Click any two locations in the maze to find the shortest path between them!</div>
   <div id="maze">
   </div>
 

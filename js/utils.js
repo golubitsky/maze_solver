@@ -29,7 +29,6 @@
     var maxDiff = Math.max(diff[0],diff[1]);
     maxDiff = Math.max(diff[2], maxDiff);
     var totalSteps = Math.log2(steps);
-    console.log(logOffset);
     for (var i = 1; i <= steps; i++) {
       curStep = ['#'];
       for (var j = 0; j < 3; j++) {

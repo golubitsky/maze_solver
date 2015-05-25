@@ -14,9 +14,6 @@
       btn.addEventListener('click', events.generateMaze, false);
     });
 
-    this.solveButton = document.getElementById('solve');
-    this.solveButton.addEventListener('click', events.handleSolveButton.bind(this), false);
-
     this.mazeDiv = document.getElementById('maze');
     this.mazeDiv.addEventListener('click', events.solveMaze.bind(this), false);
   }
@@ -33,24 +30,11 @@
     mazeSolver.maze = new mazeSolver.Maze(y, x);
   }
 
-  events.handleSolveButton = function () {
-    if (mazeSolver.view.rendering) { return };
-    this.solveButton.innerHTML = 'Solving...';
-
-    x = Math.floor(Math.random() * mazeSolver.maze.x);
-    y = Math.floor(Math.random() * mazeSolver.maze.y);
-    events.solveMaze(null, y, x);
-  }
-
-  events.solveMaze = function (e, y, x) {
-    events.disableButtons();
-
+  events.solveMaze = function (e) {
     if (mazeSolver.view.rendering) { return };
 
-    if (e) {
-      x = e.target.getAttribute('data-x');
-      y = e.target.getAttribute('data-y');
-    }
+    var x = e.target.getAttribute('data-x');
+    var y = e.target.getAttribute('data-y');
 
     if (mazeSolver.startCoord) {
       mazeSolver.endCoord = [y, x];
@@ -64,10 +48,13 @@
 
       mazeSolver.startCoord = [y, x];
       mazeSolver.startDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
-      document.getElementById('click-message').innerHTML = "Click anywhere else to find the shortest path between the two points!";
+      mazeSolver.startDiv.style.background = '#444400';
+      document.getElementById('click-message').innerHTML = "Now choose your destination...";
       return;
     }
 
+    events.disableButtons();
+    document.getElementById('click-message').innerHTML = 'Solving, please stand by...';
     mazeSolver.maze.solve(mazeSolver.endCoord[0], mazeSolver.endCoord[1]);
     mazeSolver.view.renderPath(mazeSolver.startCoord[0], mazeSolver.startCoord[1]);
     mazeSolver.startCoord = null;
@@ -78,13 +65,11 @@
     this.generateButtons.forEach(function (btn) {
       btn.disabled = 'disabled';
     });
-    this.solveButton.disabled = 'disabled';
   }
 
   events.enableButtons = function () {
     this.generateButtons.forEach(function (btn) {
       btn.disabled = null;
     });
-    this.solveButton.disabled = null;
   }
 }());
