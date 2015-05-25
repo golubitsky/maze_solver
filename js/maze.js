@@ -7,8 +7,8 @@
     this.x = xMax || Math.floor(Math.random() * 90) + 10;
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
-    // this._randomize();
-    this._randomizeDFS();
+    this._randomize();
+    // this._randomizeDFS();
     this._generateView();
   }
 
