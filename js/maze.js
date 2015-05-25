@@ -59,7 +59,6 @@
 
   Maze.prototype.solve = function (y,x) {
     this.end = [y,x];
-    //TO DO re-initialize start/finish/
     this._resetParentPointers();
     this.view._reset();
 
@@ -87,6 +86,16 @@
     }
   }
 
+  Maze.prototype.countSteps = function (y, x) {
+    //counts the number of steps from start (provided) to already computed end coord
+    //to be used for percentage color shading
+    this.numberOfSteps = 0;
+    var cell = this.dataStore[y][x];
+    while (cell) {
+      this.numberOfSteps++;
+      cell = cell.parent;
+    }
+  }
 
   Maze.prototype._resetParentPointers = function () {
     for (var y = 0; y < this.y; y++) {

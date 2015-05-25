@@ -6,8 +6,13 @@
   var events = window.mazeSolver.events = {};
 
   events.bind = function () {
-    this.generateButton = document.getElementById('generate');
-    this.generateButton.addEventListener('click', events.generateMaze.bind(this), false);
+    this.generateButtons = [];
+    this.generateButtons.push(document.getElementById('generate'));
+    this.generateButtons.push(document.getElementById('generate-random'));
+
+    this.generateButtons.forEach(function (btn) {
+      btn.addEventListener('click', events.generateMaze, false);
+    });
 
     this.solveButton = document.getElementById('solve');
     this.solveButton.addEventListener('click', events.handleSolveButton.bind(this), false);
@@ -16,19 +21,16 @@
     this.mazeDiv.addEventListener('click', events.solveMaze.bind(this), false);
   }
 
-
-
   events.generateMaze = function () {
     if (mazeSolver.view.rendering) { return };
-    var x = document.getElementById('mazeSizeX');
-    var y = document.getElementById('mazeSizeY');
-    if (x.value != '' && x.value < 10) {
-      x.value = 10;
+
+    //else random values will be used
+    if (this.id === 'generate') {
+      var x = document.getElementById('x-dimension-value').innerHTML;
+      var y = document.getElementById('y-dimension-value').innerHTML;
     }
-    if (y.value != '' && y.value < 10) {
-      y.value = 10;
-    }
-    mazeSolver.maze = new mazeSolver.Maze(y.value, x.value);
+
+    mazeSolver.maze = new mazeSolver.Maze(y, x);
   }
 
   events.handleSolveButton = function () {
@@ -49,18 +51,40 @@
       x = e.target.getAttribute('data-x');
       y = e.target.getAttribute('data-y');
     }
-    mazeSolver.maze.solve(y, x);
-    //TO DO allow user to select start location
-    mazeSolver.view.renderPath(mazeSolver.maze.y - 1, 0);
+
+    if (mazeSolver.startCoord) {
+      mazeSolver.endCoord = [y, x];
+      mazeSolver.endDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
+    } else {
+      if (mazeSolver.startDiv) {
+        mazeSolver.endDiv.style.background = null;
+        mazeSolver.startDiv.style.background = null;
+        mazeSolver.view._reset();
+      }
+
+      mazeSolver.startCoord = [y, x];
+      mazeSolver.startDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]')
+      mazeSolver.startDiv.style.background = 'yellow';
+      return;
+    }
+
+    mazeSolver.maze.solve(mazeSolver.endCoord[0], mazeSolver.endCoord[1]);
+    mazeSolver.view.renderPath(mazeSolver.startCoord[0], mazeSolver.startCoord[1]);
+    mazeSolver.startCoord = null;
+    mazeSolver.endCoord = null;
   }
 
   events.disableButtons = function () {
+    this.generateButtons.forEach(function (btn) {
+      btn.disabled = 'disabled';
+    });
     this.solveButton.disabled = 'disabled';
-    this.generateButton.disabled = 'disabled';
   }
 
   events.enableButtons = function () {
+    this.generateButtons.forEach(function (btn) {
+      btn.disabled = null;
+    });
     this.solveButton.disabled = null;
-    this.generateButton.disabled = null;
   }
 }());

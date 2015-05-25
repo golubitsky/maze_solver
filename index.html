@@ -18,19 +18,8 @@
 
 <body>
   <div id="controls">
-    <label for="mazeSizeX">Enter x-size 10-100 (blank=random)</label>
-    <input id="mazeSizeX"
-          type="number"
-          min="10"
-          max="100"
-          step="1">
-    <label for="mazeSizeY">Enter y-size 10-100 (blank=random)</label>
-    <input id="mazeSizeY"
-          type="number"
-          min="10"
-          max="100"
-          step="1">
     <button id="generate">Generate Maze!</button>
+    <button id="generate-random">Generate Random Maze!</button>
     <button id="solve">Solve Maze!</button>
     <div id="x-slider"></div>
     <div id="y-slider"></div>
@@ -48,6 +37,7 @@
   <script src="js/mazeView.js"></script>
   <script src="js/mazeEventHandling.js"></script>
   <script src="js/sliders.js"></script>
+  <script src="js/utils.js"></script>
   <script type="text/javascript">
     ;(function() {
       mazeSolver.maze = new mazeSolver.Maze();

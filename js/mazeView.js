@@ -72,26 +72,34 @@
 
   }
 
-  MazeView.prototype.renderPath = function (y,x) {
+  MazeView.prototype.renderPath = function (y, x) {
+    this.maze.countSteps(y,x);
+    var startColor = mazeSolver.endDiv.style.background;
+    this.colors = mazeSolver.lighten('#000000','#FFFF00', this.maze.numberOfSteps);
+    console.log(this.colors);
     this.rendering = true;
     var cell = this.maze.dataStore[y][x];
     var el;
+
+    this.count = 0;
     pathTrace = setInterval(function () {
       cell = this._goToNextCell(cell);
       if (!cell) {
         clearInterval(pathTrace);
         this.rendering = false;
 
-        solveButton = document.getElementById('solve')
+        solveButton = document.getElementById('solve');
         solveButton.innerHTML = 'Solve Maze!';
         mazeSolver.events.enableButtons();
       }
     }.bind(this), 50);
-
   }
 
   MazeView.prototype._goToNextCell = function (cell) {
-    el = document.querySelector('[data-x=\"' + cell.x + '\"][data-y=\"'+ cell.y +'\"]');
+    mazeSolver.endDiv.style.background = this.colors[this.count];
+    this.count++;
+
+    el = document.querySelector('[data-x="' + cell.x + '"][data-y="' + cell.y + '"]')
     el.className += " in-path";
     return cell.parent;
   }
