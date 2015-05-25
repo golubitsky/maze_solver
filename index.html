@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Maze Solver</title>
+  <meta name="description" content="Maze Generator/Solver">
+  <meta name="author" content="Mike Golubitsky">
+
+  <link rel="stylesheet" href="css/main.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <div>
+    <label for="mazeSizeX">Enter x-size 10-100 (blank=random)</label>
+    <input id="mazeSizeX"
+          type="number"
+          min="10"
+          max="100"
+          step="1">
+    <label for="mazeSizeY">Enter y-size 10-100 (blank=random)</label>
+    <input id="mazeSizeY"
+          type="number"
+          min="10"
+          max="100"
+          step="1">
+    <button id="generate">Generate Maze!</button>
+    <button id="solve">Solve Maze!</button>
+  </div>
+
+  <div id="maze">
+  </div>
+
+  <script src="js/cell.js"></script>
+  <script src="js/maze.js"></script>
+  <script src="js/mazeView.js"></script>
+  <script src="js/mazeEventHandling.js"></script>
+  <script type="text/javascript">
+    ;(function() {
+      mazeSolver.maze = new mazeSolver.Maze();
+      mazeSolver.events.bind();
+    }());
+  </script>
+</body>
+</html>
