@@ -86,7 +86,6 @@
       if (!cell) {
         clearInterval(pathTrace);
         this.rendering = false;
-
         solveButton = document.getElementById('solve');
         solveButton.innerHTML = 'Solve Maze!';
         mazeSolver.events.enableButtons();
