@@ -7,7 +7,8 @@
     this.x = xMax || Math.floor(Math.random() * 90) + 10;
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
-    this._randomize()
+    // this._randomize();
+    this._randomizeDFS();
     this._generateView();
   }
 
@@ -55,6 +56,81 @@
         }
       }
     }
+  }
+
+  Maze.prototype._randomizeDFS = function () {
+    var cell = arguments[0] || this.dataStore[0][0];
+    var adj, thisOpen, adjOpen;
+    cell.inMaze = true;
+
+    var seen = new Array(4);
+    var count = 0;
+    while (count < 4) {
+      if (this._adjacentsAllVisited(cell)) { return }
+
+      var rand = Math.round(Math.random() * 3);
+      if (!seen[rand]) {
+        seen[rand] = true;
+        count++;
+      } else {
+        continue;
+      }
+      switch (rand) {
+        case 0:
+          adj = this.dataStore[cell.y - 1];
+          if (adj && !adj.inMaze) {
+            adj = adj[cell.x];
+            cell.adjacents[0] = [cell.y - 1, cell.x];
+            adj.adjacents[2] = [cell.y, cell.x];
+            this._randomizeDFS(adj);
+          }
+        break;
+        case 1:
+          adj = this.dataStore[cell.y][cell.x + 1];
+          if (adj && !adj.inMaze) {
+            cell.adjacents[1] = [cell.y, cell.x + 1];
+            adj.adjacents[3] = [cell.y, cell.x];
+            this._randomizeDFS(adj);
+          }
+        break;
+        case 2:
+          adj = this.dataStore[cell.y + 1];
+          if (adj && !adj.inMaze) {
+            adj = adj[cell.x];
+            cell.adjacents[2] = [cell.y + 1, cell.x];
+            adj.adjacents[0] = [cell.y, cell.x];
+            this._randomizeDFS(adj);
+          }
+        break;
+        case 3:
+          adj = this.dataStore[cell.y][cell.x - 1];
+          if (adj && !adj.inMaze) {
+            cell.adjacents[3] = [cell.y, cell.x - 1];
+            adj.adjacents[1] = [cell.y, cell.x];
+            this._randomizeDFS(adj);
+          }
+        break;
+      }
+    }
+  }
+
+  Maze.prototype._adjacentsAllVisited = function (cell) {
+    var adj;
+    var result;
+    [-1,1].forEach(function (dir) {
+      adj = this.dataStore[cell.y + dir];
+      if (adj) {
+        adj = adj[cell.x];
+        if (!adj.inMaze) { result = "false"; }
+      }
+
+      adj = this.dataStore[cell.y][cell.x + dir];
+      if (adj && !adj.inMaze) {
+        result = "false";
+      }
+    }.bind(this));
+    if (result == "false") { return false };
+    return true;
   }
 
   Maze.prototype.solve = function (y,x) {

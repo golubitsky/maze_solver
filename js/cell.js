@@ -8,9 +8,7 @@
     this.y = y;
     this.x = x;
     this.adjacents = new Array(4)
-    this.inPath = false;
+    this.inMaze = false;
     this.parent;
-    this.start;
-    this.end;
   }
 }());
