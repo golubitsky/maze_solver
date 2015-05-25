@@ -63,8 +63,8 @@
       }
 
       mazeSolver.startCoord = [y, x];
-      mazeSolver.startDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]')
-      mazeSolver.startDiv.style.background = 'yellow';
+      mazeSolver.startDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
+      document.getElementById('click-message').innerHTML = "Click anywhere else to find the shortest path between the two points!";
       return;
     }
 

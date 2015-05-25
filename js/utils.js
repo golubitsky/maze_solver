@@ -4,7 +4,7 @@
     window.mazeSolver = {};
   }
 
-  mazeSolver.lighten = function (color1, color2, steps) {
+  mazeSolver.stepColors = function (color1, color2, steps) {
     var diff = [];
     var logOffset = [];
     var curColor, curStep;
@@ -28,7 +28,7 @@
     //log curve functionality
     var maxDiff = Math.max(diff[0],diff[1]);
     maxDiff = Math.max(diff[2], maxDiff);
-    var totalSteps = Math.log(steps);
+    var totalSteps = Math.log2(steps);
     console.log(logOffset);
     for (var i = 1; i <= steps; i++) {
       curStep = ['#'];

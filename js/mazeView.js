@@ -19,7 +19,7 @@
   MazeView.prototype._reset = function () {
     var cells = document.querySelectorAll('[data-x][data-y]');
     Array.prototype.forEach.call(cells, function (el) {
-      el.classList.remove("in-path");
+      el.style.background = 'black';
     });
   }
 
@@ -75,8 +75,7 @@
   MazeView.prototype.renderPath = function (y, x) {
     this.maze.countSteps(y,x);
     var startColor = mazeSolver.endDiv.style.background;
-    this.colors = mazeSolver.lighten('#000000','#FFFF00', this.maze.numberOfSteps);
-    console.log(this.colors);
+    this.colors = mazeSolver.stepColors('#000000','#FFFF00', this.maze.numberOfSteps);
     this.rendering = true;
     var cell = this.maze.dataStore[y][x];
     var el;
@@ -91,16 +90,16 @@
         solveButton = document.getElementById('solve');
         solveButton.innerHTML = 'Solve Maze!';
         mazeSolver.events.enableButtons();
+        document.getElementById('click-message').innerHTML = "Click anywhere in the maze to select a starting point.";
       }
     }.bind(this), 50);
   }
 
   MazeView.prototype._goToNextCell = function (cell) {
-    mazeSolver.endDiv.style.background = this.colors[this.count];
     this.count++;
 
     el = document.querySelector('[data-x="' + cell.x + '"][data-y="' + cell.y + '"]')
-    el.className += " in-path";
+    el.style.background = this.colors[this.count];
     return cell.parent;
   }
 }());
