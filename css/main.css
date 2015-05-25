@@ -51,7 +51,7 @@ table {
 /*main*/
 
 body {
-  color: white;
+  color: #eee;
   font-family: Fredoka One;
   background: #291515;
 }
@@ -64,27 +64,34 @@ body {
 }
 
 #controls * {
-  /*display: block;*/
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .button {
   margin: 10px;
   font-size: 15px;
   font-family: Fredoka One;
-  border: 2px solid white;
+  border: 2px solid #eee;
   border-radius: 5px;
   padding: 5px;
   display: inline-block;
+  transition: background 0.45s ease;
+  transition: color 0.75s ease;
+  transition: transform 0.25s ease;
 }
 
 .button:hover {
   cursor: pointer;
+  background: #A30000;
+  color: #eee;
+  -ms-transform: scale(1.025,1.025); /* IE 9 */
+  -webkit-transform: scale(1.025,1.025); /* Safari */
+  transform: scale(1.025,1.025);
 }
 
 .label {
-  width: 25%;
-  display: inline-block;
-  vertical-align: middle;
+  width: 7%;
 }
 
 #click-message {
@@ -153,18 +160,15 @@ body {
 .slider-container {
   width: 100%;
   display: block;
-  vertical-align: middle;
 }
 
 .ui-slider {
   width: 70%;
-  clear: both;
   margin: 10px;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .ui-slider .ui-slider-handle {
+  background: #A30000;
   width: 12px;
   margin-left: -6px; //used to center slider on click
 }
@@ -177,4 +181,8 @@ body {
 .ui-slider-handle:active {
   cursor: grabbing;
   cursor: -webkit-grabbing;
+}
+
+.ui-slider-range-min, .ui-widget-content {
+  background: black;
 }

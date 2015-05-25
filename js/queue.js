@@ -22,6 +22,7 @@
     var node = new Node(initialData)
     this.head = node;
     this.tail = node;
+    this.length = 1;
   }
 
   Queue.prototype.dequeue = function () {
@@ -35,6 +36,7 @@
     }
 
     this.head = node.nextNode;
+    this.length--;
     return node.data;
   }
 
@@ -48,6 +50,7 @@
     }
 
     this.tail = newNode;
+    this.length++;
     return newNode.data;
   }
 }());

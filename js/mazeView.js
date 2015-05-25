@@ -17,10 +17,10 @@
   }
 
   MazeView.prototype._reset = function () {
-    var cells = document.querySelectorAll('[data-x][data-y]');
-    Array.prototype.forEach.call(cells, function (el) {
+    var elements = document.querySelectorAll('[data-x][data-y]');
+    Array.prototype.forEach.call(elements, function (el) {
       ['current','seen','explored'].forEach(function (klass) {
-        el.className = el.className.replace( new RegExp(klass) , '' );
+        el.className = el.className.replace( new RegExp(klass, 'g') , '' );
       });
       //reset path colors
       el.style.background = null;
@@ -77,22 +77,21 @@
   }
 
   MazeView.prototype.renderPath = function (y, x) {
-    console.log(y,x)
     this.maze.countSteps(y,x);
-    console.log(maze.numberOfSteps);
-    var startColor = mazeSolver.endDiv.style.background;
-    this.colors = mazeSolver.stepColors('#000000','#FFFF00', this.maze.numberOfSteps);
-    console.log(this.colors);
+    //TO DO insert variable colors?
+    this.colors = mazeSolver.stepColors('#000000','#ffff00', this.maze.numberOfSteps);
     this.rendering = true;
     var cell = this.maze.dataStore[y][x];
     var el;
 
-    this.count = 0;
+    this.count = 1;
     pathTrace = setInterval(function () {
       cell = this._goToNextCell(cell);
       if (!cell) {
         clearInterval(pathTrace);
         this.rendering = false;
+        mazeSolver.startCoord = null;
+        mazeSolver.endCoord = null;
         mazeSolver.events.enableButtons();
         document.getElementById('click-message').innerHTML = "Click any two locations in the maze to find the shortest path between them!";
       }

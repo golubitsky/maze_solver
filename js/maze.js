@@ -7,8 +7,8 @@
     this.x = xMax || Math.floor(Math.random() * 90) + 10;
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
-    // this._randomize();
-    this._randomizeDFS();
+    this._randomize();
+    // this._randomizeDFS();
     this._generateView();
   }
 
@@ -135,7 +135,6 @@
 
   Maze.prototype.solve = function (y,x) {
     this._resetParentPointers();
-    this.view._reset();
 
     var seen = {undefined: true};
 
@@ -160,48 +159,47 @@
     }
   }
 
-  Maze.prototype.solveAsync = function (y,x) {
+  Maze.prototype.solveAsyncBFS = function (y,x) {
     this._resetParentPointers();
     this.view._reset();
+    mazeSolver.view.rendering = true;
 
     this.seen = {undefined: true};
 
     var coord, cell, x, y;
-    var q = [ [y, x] ];
+    var q = new mazeSolver.Queue([y, x]);
     var stopInterval = false;
     var exploreMaze = setInterval(function () {
       if (q.length && !stopInterval) {
-        coord = q.shift();
-        if (this._visitNext(coord, q)) {
+        coord = q.dequeue();
+        if (this._visitNextBFS(coord, q)) {
           stopInterval = true;
         };
       } else {
         clearInterval(exploreMaze);
         mazeSolver.view.renderPath(mazeSolver.startCoord[0], mazeSolver.startCoord[1]);
-        mazeSolver.startCoord = null;
-        mazeSolver.endCoord = null;
       }
     }.bind(this), 1);
   }
 
-  Maze.prototype._visitNext = function (coord, q) {
+  Maze.prototype._visitNextBFS = function (coord, q) {
     this.seen[coord] = true;
     var y = coord[0];
     var x = coord[1];
     var cell = this.dataStore[y][x];
-    debugger
     var currentEl = document.querySelector('[data-x="' + cell.x + '"][data-y="' + cell.y + '"]');
     currentEl.className += ' current';
     var stopInterval = false;
-    cell.adjacents.forEach(function (adj) {
+    var adjacents = mazeSolver.prioritizeAdjacentOrder(coord, mazeSolver.startCoord, cell.adjacents);
+    adjacents.forEach(function (adj) {
       if (!this.seen[adj]) {
         this.dataStore[adj[0]][adj[1]].parent = cell;
         if (mazeSolver.areEqual(adj, mazeSolver.startCoord)) {
           stopInterval = true;
           return;
         };
-        q.push(adj)
-        var el = document.querySelector('[data-x="' + adjX + '"][data-y="' + adjY + '"]')
+        q.enqueue(adj)
+        var el = document.querySelector('[data-x="' + adj[1] + '"][data-y="' + adj[0] + '"]')
         el.className += ' seen';
       }
     }.bind(this));
@@ -212,6 +210,39 @@
     return stopInterval;
   }
 
+Maze.prototype.solveDFS = function (y,x) {
+    this._resetParentPointers();
+    this.view._reset();
+    mazeSolver.view.rendering = true;
+
+    this.seen = {undefined: true};
+
+    this._visitNextDFS([y, x]);
+  }
+
+  Maze.prototype._visitNextDFS = function (coord) {
+    // if (mazeSolver.areEqual(coord, mazeSolver.startCoord)) {
+    //   debugger
+    //   return true;
+    // }
+    this.seen[coord] = true;
+    var y = coord[0];
+    var x = coord[1];
+    var cell = this.dataStore[y][x];
+    var adjacents = mazeSolver.prioritizeAdjacentOrder(coord, mazeSolver.startCoord, cell.adjacents);
+    var searchComplete;
+    adjacents.forEach(function (adj) {
+      if (!this.seen[adj]) {
+        this.dataStore[adj[0]][adj[1]].parent = cell;
+        if (this._visitNextDFS([adj[0], adj[1]])) {
+          // searchComplete = true;
+          return;
+        }
+      }
+    }.bind(this));
+    // debugger
+    // return searchComplete;
+  }
   Maze.prototype.countSteps = function (y, x) {
     //counts the number of steps from start (provided) to already computed end coord
     //to be used for percentage color shading

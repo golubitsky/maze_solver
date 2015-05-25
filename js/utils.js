@@ -57,4 +57,31 @@
     }
     return true;
   }
+
+  mazeSolver.prioritizeAdjacentOrder = function (cur, dest, adjacents) {
+    //pick directions that point in direction of destination
+    var cX = cur[1];
+    var cY = cur[0];
+    var dX = dest[1];
+    var dY = dest[0];
+
+    var order;
+    if (cY <= dY && cX <= dX) {
+      order = [1,2,0,3];
+    } else if (cY <= dY) {
+      order = [2,3,0,1];
+    } else if (cY > dY && cX > dX) {
+      order = [0,3,1,2];
+    } else {
+      return adjacents;
+    }
+
+    var result = []
+    for (var i = 0; i <= order.length; i++) {
+      if (adjacents[i]) {
+        result.push(adjacents[i]);
+      }
+    }
+    return result;
+  }
 }());
