@@ -48,6 +48,14 @@ table {
   border-spacing: 0;
 }
 
+/*controls*/
+#controls {
+  width: 200px;
+  margin: 0 auto;
+}
+#controls * {
+  display: block;
+}
 /*maze*/
 
 #maze {
@@ -83,4 +91,17 @@ table {
 
 #maze .in-path {
   background: #FB0000;
+}
+
+/*slider*/
+
+.ui-slider .ui-slider-handle {
+    /*height: 40px;*/
+    width: 5px;
+    /*padding-left: 5px; //add this*/
+}
+
+.ui-slider .ui-slider-handle {
+    width: 12px;
+    margin-left: -6px; //add this
 }
