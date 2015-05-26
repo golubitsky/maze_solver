@@ -28,7 +28,7 @@
     c.width = mazeSolver.sidebarWidth;
     // c.height = mazeSolver.sidebarHeight;
     var m = document.getElementById('maze');
-    c.width = mazeSolver.mazeWidth;
-    c.height = mazeSolver.mazeHeight;
+    m.width = mazeSolver.mazeWidth;
+    m.height = mazeSolver.mazeHeight;
   }
 }());
