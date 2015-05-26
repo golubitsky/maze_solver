@@ -52,22 +52,15 @@
           el.style.width = this.cellSize + 'px';
           el.style.height = this.cellSize + 'px';
           var classes = ['maze-cell']
-          this.maze.dataStore[y][x].adjacents.forEach(function (adj, index) {
-            if (adj) {
-              switch(index) {
-                case 0:
-                  classes.push('up-open');
-                  break;
-                case 1:
-                  classes.push('right-open');
-                  break;
-                case 2:
-                  classes.push('down-open');
-                  break;
-                case 3:
-                  classes.push('left-open');
-                  break;
-              }
+          this.maze.dataStore[y][x].adjacents.forEach(function (adj) {
+            if (adj[0] < y) {
+              classes.push('up-open');
+            } else if (adj[0] > y) {
+              classes.push('down-open');
+            } else if (adj[1] > x) {
+              classes.push('right-open');
+            } else {
+              classes.push('left-open');
             }
           });
 

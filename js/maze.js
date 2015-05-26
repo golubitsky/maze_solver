@@ -7,7 +7,7 @@
     this.x = xMax || Math.floor(Math.random() * 90) + 10;
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
-    this._randomize();
+    this._randomizePrim();
     // this._randomizeDFS(); //alternate maze generation approach
   }
 
@@ -21,6 +21,60 @@
       dataStore.push(row)
     }
     return dataStore;
+  }
+  Maze.prototype._randomizePrim = function () {
+    //select a RANDOM cell
+    var y = Math.floor(Math.random() * this.y);
+    var x = Math.floor(Math.random() * this.x);
+    var cell = this.dataStore[y][x];
+    //mark cell inMaze
+    cell.inMaze = true;
+    var totalCells = this.x * this.y;
+    var inMazeCount = 1;
+    //add cell's walls to q
+    var q = []
+    this._addWalls(cell, q);
+    var otherCell;
+    while (q.length) {
+      //pick RANDOM wall
+      var r = Math.floor(Math.random() * q.length);
+      r = q.splice(r, 1)[0];
+      if (this.dataStore[r.cur[0]] && this.dataStore[r.cur[0]][r.cur[1]]) {
+        cell = this.dataStore[r.cur[0]][r.cur[1]];
+      }
+      //if opposing cell exists and is not inMaze
+      if (cell.inMaze) {
+        continue;
+      }
+        //open wall
+      cell.adjacents.push([r.prev[0], r.prev[1]]);
+      otherCell = this.dataStore[r.prev[0]][r.prev[1]];
+      otherCell.adjacents.push([r.cur[0], r.cur[1]]);
+        //mark cell inMaze
+      cell.inMaze = true;
+      inMazeCount++;
+      if (inMazeCount === totalCells) {
+        return
+      }
+        //add cell's walls to q
+      this._addWalls(cell, q);
+    }
+  }
+
+  Maze.prototype._addWalls = function (cell, q) {
+    var x = cell.x;
+    var y = cell.y;
+    [1,-1].forEach(function (d) {
+      var obj = {};
+      obj.prev = [y,x];
+      obj.cur = [y + d, x];
+      q.push(obj);
+
+      obj = {};
+      obj.prev = [y,x];
+      obj.cur = [y, x + d];
+      q.push(obj);
+    });
   }
 
   Maze.prototype._randomize = function () {

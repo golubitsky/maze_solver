@@ -7,7 +7,7 @@
     //up right down left
     this.y = y;
     this.x = x;
-    this.adjacents = new Array(4)
+    this.adjacents = [];
     this.inMaze = false;
     this.parent;
   }
