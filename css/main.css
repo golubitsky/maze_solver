@@ -124,8 +124,9 @@ h1 {
 }
 
 #click-message {
-  margin-top: 15%;
-  margin-bottom: 15%;
+  height: 80px;
+  margin-top: 10%;
+  margin-bottom: 5%;
   display: block;
   text-align: center;
   color: yellow;
