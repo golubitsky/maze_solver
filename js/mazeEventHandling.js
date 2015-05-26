@@ -27,7 +27,10 @@
       var y = document.getElementById('y-dimension-value').innerHTML;
     }
 
+    css.queryViewport();
+    css.sizeBoxes();
     mazeSolver.maze = new mazeSolver.Maze(y, x);
+    mazeSolver.view = new mazeSolver.MazeView(mazeSolver.maze);
   }
 
   events.solveMaze = function (e) {
@@ -45,7 +48,7 @@
       }
       mazeSolver.endCoord = [y, x];
       mazeSolver.endDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
-      mazeSolver.endDiv.style.background = '#ffff00';
+      mazeSolver.endDiv.className += ' end';
     } else {
       if (mazeSolver.startDiv) {
         mazeSolver.view._reset();
@@ -53,7 +56,7 @@
 
       mazeSolver.startCoord = [y, x];
       mazeSolver.startDiv = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
-      mazeSolver.startDiv.style.background = '#444400';
+      mazeSolver.startDiv.className += ' start';
       document.getElementById('click-message').innerHTML = "Now choose your destination...";
       return;
     }

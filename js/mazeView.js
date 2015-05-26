@@ -10,10 +10,10 @@
   }
 
   MazeView.prototype.setCellSize = function () {
-    this.cellSize = Math.min(
-      Math.floor(600/this.maze.y),
-      Math.floor(800/this.maze.x)
-    );
+    this.cellSize = Math.floor(Math.min(
+      Math.floor(mazeSolver.mazeHeight/this.maze.y),
+      Math.floor(mazeSolver.mazeWidth/this.maze.x)
+    ));
   }
 
   MazeView.prototype._reset = function () {
@@ -25,6 +25,8 @@
       //reset path colors
       el.style.background = null;
     });
+    mazeSolver.startDiv.className = mazeSolver.startDiv.className.replace( new RegExp('start', 'g') , '' );
+    mazeSolver.endDiv.className = mazeSolver.endDiv.className.replace( new RegExp('end', 'g') , '' );
   }
 
   MazeView.prototype.render = function () {
@@ -40,6 +42,8 @@
       mazeDiv.style.width = this.cellSize * this.maze.x + 10 + 'px';
       mazeDiv.style.height = this.cellSize * this.maze.y + 10 + 'px';
       for (var y = 0; y < this.maze.y; y++) {
+        var row = document.createElement('div')
+        row.className = 'maze-row';
         for (var x = 0; x < this.maze.x; x++) {
 
           var el = document.createElement('div')
@@ -47,7 +51,7 @@
           el.setAttribute('data-y', y);
           el.style.width = this.cellSize + 'px';
           el.style.height = this.cellSize + 'px';
-          var classes = []
+          var classes = ['maze-cell']
           this.maze.dataStore[y][x].adjacents.forEach(function (adj, index) {
             if (adj) {
               switch(index) {
@@ -68,8 +72,9 @@
           });
 
           el.className = classes.join(' ');
-          mazeDiv.appendChild(el);
+          row.appendChild(el);
         }
+        mazeDiv.appendChild(row);
       }
       mazeDiv.style.opacity = '1';
     }.bind(this), 150);
@@ -95,7 +100,7 @@
         mazeSolver.events.enableButtons();
         document.getElementById('click-message').innerHTML = "Click any two locations in the maze to find the shortest path between them!";
       }
-    }.bind(this), 50);
+    }.bind(this), 25);
   }
 
   MazeView.prototype._goToNextCell = function (cell) {

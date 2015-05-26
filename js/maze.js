@@ -8,12 +8,7 @@
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
     this._randomize();
-    // this._randomizeDFS();
-    this._generateView();
-  }
-
-  Maze.prototype._generateView = function () {
-    this.view = mazeSolver.view = new mazeSolver.MazeView(this);
+    // this._randomizeDFS(); //alternate maze generation approach
   }
 
   Maze.prototype._generate = function () {
@@ -161,7 +156,7 @@
 
   Maze.prototype.solveAsyncBFS = function (y,x) {
     this._resetParentPointers();
-    this.view._reset();
+    mazeSolver.view._reset();
     mazeSolver.view.rendering = true;
 
     this.seen = {undefined: true};
@@ -212,7 +207,7 @@
 
 Maze.prototype.solveDFS = function (y,x) {
     this._resetParentPointers();
-    this.view._reset();
+    mazeSolver.view._reset();
     mazeSolver.view.rendering = true;
 
     this.seen = {undefined: true};

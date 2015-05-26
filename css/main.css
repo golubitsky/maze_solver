@@ -66,10 +66,12 @@ body {
 /*controls*/
 h1 {
   width: 200px;
+  margin-bottom: 10px;
+  font-size: 30px;
 }
 #controls {
   width: 200px;
-  margin: 10px auto;
+  margin: 0 20px;
 }
 
 #controls * {
@@ -77,20 +79,39 @@ h1 {
   vertical-align: middle;
 }
 
+.dimension-label {
+  margin-right: 7px;
+}
+
+.linked-in {
+  /*display: block;*/
+  width: 200px;
+  text-decoration: none;
+  position: absolute;
+  font-size: 20px;
+  padding: 8px 2px;
+  bottom: 30px;
+  left: 39px;
+  right: 0;
+}
+
 .button {
   margin: 10px;
   font-size: 15px;
-  font-family: Fredoka One;
-  border: 2px solid #eee;
-  border-radius: 5px;
   padding: 5px;
   display: inline-block;
+}
+
+.linked-in, .button {
+  color: #eee;
+  background: black;
+  border-radius: 5px;
   transition: background 0.45s ease;
   transition: color 0.75s ease;
   transition: transform 0.25s ease;
 }
 
-.button:hover {
+.linked-in:hover, .button:hover {
   cursor: pointer;
   background: #A30000;
   color: #eee;
@@ -113,57 +134,67 @@ h1 {
 
 #maze {
   /*margin: 0 auto;*/
-  margin-left: 20px;
+  /*margin-left: 20px;*/
   opacity: 0;
   transition: opacity 0.25s ease;
   border: 5px solid #A30000;
   background: black;
 }
 
-#maze div {
+div.maze-row {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+div.maze-cell {
   background: black;
-  float: left;
+  flex: initial;
+  flex-shrink: 2;
   border: 1px solid #A30000;
   transition: background 0.5s ease;
 }
 
-#maze div.current {
+div.current {
   background: #fff;
 }
 
-#maze div.seen {
+div.seen {
   background: #777;
 }
 
-#maze div.explored {
+div.explored {
   background: #aaa;
 }
 
-#maze div.start {
+div.start {
+  background: #444400;
 }
 
-#maze div.end {
+div.end {
+  background: #ffff00;
 }
 
-#maze .left-open {
+div.left-open {
   border-left-style: none;
 }
 
-#maze .right-open {
+div.right-open {
   border-right-style: none;
 }
 
-#maze .up-open {
+div.up-open {
   border-top-style: none;
 }
 
-#maze .down-open {
+div.down-open {
   border-bottom-style: none;
 }
 
-#maze .in-path {
+/*.in-path {
   background: #FB0000;
-}
+}*/
 
 /*slider*/
 

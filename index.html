@@ -23,7 +23,7 @@
 <body>
   <div id="content">
     <div id="controls">
-      <h1>Maze Generator/Solver</h1>
+      <h1>Maze Generator & Solver</h1>
       <div id="click-message">Click any two locations in the maze to find the shortest path between them!</div>
       <span id="generate-random" class="button">Generate a totally random maze</span>
       <span id="generate" class="button">Generate a maze using dimensions set via sliders</span>
@@ -33,6 +33,8 @@
       <div class="slider-container">
         <div id="y-slider"></div><div class="dimension-label">Y size:</div><div id="y-dimension-value" class="label"></div>
       </div>
+
+      <a class="linked-in" href="https://www.linkedin.com/in/mikegolubitsky">WHO MADE THIS?</a>
     </div>
 
     <div id="maze">
@@ -48,10 +50,10 @@
   <script src="js/sliders.js"></script>
   <script src="js/queue.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/responsive.js"></script>
   <script type="text/javascript">
     ;(function() {
-      mazeSolver.maze = new mazeSolver.Maze(50,50);
-      mazeSolver.events.bind();
+      mazeSolver.css.initialize();
     }());
   </script>
 </body>
