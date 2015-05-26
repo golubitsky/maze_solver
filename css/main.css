@@ -83,7 +83,6 @@ h1 {
 }
 
 .linked-in {
-  /*display: block;*/
   width: 200px;
   text-decoration: none;
   position: absolute;
@@ -134,8 +133,6 @@ h1 {
 /*maze*/
 
 #maze {
-  /*margin: 0 auto;*/
-  /*margin-left: 20px;*/
   opacity: 0;
   transition: opacity 0.25s ease;
   border: 5px solid #A30000;
@@ -193,10 +190,6 @@ div.down-open {
   border-bottom-style: none;
 }
 
-/*.in-path {
-  background: #FB0000;
-}*/
-
 /*slider*/
 
 .slider-container {
@@ -212,7 +205,8 @@ div.down-open {
 .ui-slider .ui-slider-handle {
   background: #A30000;
   width: 12px;
-  margin-left: -6px; //used to center slider on click
+  /*used to center slider on click*/
+  margin-left: -6px;
 }
 
 .ui-slider-handle:hover {

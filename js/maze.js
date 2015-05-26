@@ -8,7 +8,6 @@
     this.y = yMax || Math.floor(Math.random() * 90) + 10;
     this.dataStore = this._generate();
     this._randomizePrim();
-    // this._randomizeDFS(); //alternate maze generation approach
   }
 
   Maze.prototype._generate = function () {
@@ -22,6 +21,7 @@
     }
     return dataStore;
   }
+
   Maze.prototype._randomizePrim = function () {
     //select a RANDOM cell
     var y = Math.floor(Math.random() * this.y);
@@ -77,7 +77,7 @@
     });
   }
 
-  Maze.prototype._randomize = function () {
+  Maze.prototype._randomizeNaive = function () {
     var open;
 
     for (var y = this.y - 1; y >= 0; y--) {
@@ -107,81 +107,23 @@
     }
   }
 
-  Maze.prototype._randomizeDFS = function () {
-    var cell = arguments[0] || this.dataStore[0][0];
-    var adj, thisOpen, adjOpen;
-    cell.inMaze = true;
-
-    var seen = new Array(4);
-    var count = 0;
-    while (count < 4) {
-      if (this._adjacentsAllVisited(cell)) { return }
-
-      var rand = Math.round(Math.random() * 3);
-      if (!seen[rand]) {
-        seen[rand] = true;
-        count++;
-      } else {
-        continue;
-      }
-      switch (rand) {
-        case 0:
-          adj = this.dataStore[cell.y - 1];
-          if (adj && !adj.inMaze) {
-            adj = adj[cell.x];
-            cell.adjacents[0] = [cell.y - 1, cell.x];
-            adj.adjacents[2] = [cell.y, cell.x];
-            this._randomizeDFS(adj);
-          }
-        break;
-        case 1:
-          adj = this.dataStore[cell.y][cell.x + 1];
-          if (adj && !adj.inMaze) {
-            cell.adjacents[1] = [cell.y, cell.x + 1];
-            adj.adjacents[3] = [cell.y, cell.x];
-            this._randomizeDFS(adj);
-          }
-        break;
-        case 2:
-          adj = this.dataStore[cell.y + 1];
-          if (adj && !adj.inMaze) {
-            adj = adj[cell.x];
-            cell.adjacents[2] = [cell.y + 1, cell.x];
-            adj.adjacents[0] = [cell.y, cell.x];
-            this._randomizeDFS(adj);
-          }
-        break;
-        case 3:
-          adj = this.dataStore[cell.y][cell.x - 1];
-          if (adj && !adj.inMaze) {
-            cell.adjacents[3] = [cell.y, cell.x - 1];
-            adj.adjacents[1] = [cell.y, cell.x];
-            this._randomizeDFS(adj);
-          }
-        break;
+  Maze.prototype.findLongestPath = function () {
+    var lengths = [];
+    var f;
+    for (var y = 0; y < this.y; y++) {
+      for (var x = 0; x < this.x; x++) {
+        f = this.solve(y, x);
+        this.countSteps(f[0],f[1]);
+        lengths[this.numberOfSteps] = lengths[this.numberOfSteps] || []
+        lengths[this.numberOfSteps].push([ [y,x], f])
       }
     }
+    var coords = lengths[lengths - 1][0];
+    var start = coords[0];
+    var end = coords[1];
+    this.solve(start[0], start[1]);
+    mazeSolver.view.renderPath(end[0],end[1]);
   }
-
-  Maze.prototype._adjacentsAllVisited = function (cell) {
-    var adj;
-    var result;
-    [-1,1].forEach(function (dir) {
-      adj = this.dataStore[cell.y + dir];
-      if (adj) {
-        adj = adj[cell.x];
-        if (!adj.inMaze) { result = "false"; }
-      }
-
-      adj = this.dataStore[cell.y][cell.x + dir];
-      if (adj && !adj.inMaze) {
-        result = "false";
-      }
-    }.bind(this));
-    if (result == "false") { return false };
-    return true;
-  }
-
   Maze.prototype.solve = function (y,x) {
     this._resetParentPointers();
 
@@ -190,8 +132,10 @@
     var coord, cell, x, y;
     var q = [ [y, x] ];
 
+    var lastSeen;
     while (q.length) {
       coord = q.shift();
+      lastSeen = coord;
       seen[coord] = true;
 
       y = coord[0];
@@ -206,9 +150,11 @@
         }
       }.bind(this));
     }
+    return lastSeen;
   }
 
   Maze.prototype.solveAsyncBFS = function (y,x) {
+    //used to animate solving
     this._resetParentPointers();
     mazeSolver.view._reset();
     mazeSolver.view.rendering = true;
@@ -259,39 +205,6 @@
     return stopInterval;
   }
 
-Maze.prototype.solveDFS = function (y,x) {
-    this._resetParentPointers();
-    mazeSolver.view._reset();
-    mazeSolver.view.rendering = true;
-
-    this.seen = {undefined: true};
-
-    this._visitNextDFS([y, x]);
-  }
-
-  Maze.prototype._visitNextDFS = function (coord) {
-    // if (mazeSolver.areEqual(coord, mazeSolver.startCoord)) {
-    //   debugger
-    //   return true;
-    // }
-    this.seen[coord] = true;
-    var y = coord[0];
-    var x = coord[1];
-    var cell = this.dataStore[y][x];
-    var adjacents = mazeSolver.prioritizeAdjacentOrder(coord, mazeSolver.startCoord, cell.adjacents);
-    var searchComplete;
-    adjacents.forEach(function (adj) {
-      if (!this.seen[adj]) {
-        this.dataStore[adj[0]][adj[1]].parent = cell;
-        if (this._visitNextDFS([adj[0], adj[1]])) {
-          // searchComplete = true;
-          return;
-        }
-      }
-    }.bind(this));
-    // debugger
-    // return searchComplete;
-  }
   Maze.prototype.countSteps = function (y, x) {
     //counts the number of steps from start (provided) to already computed end coord
     //to be used for percentage color shading
