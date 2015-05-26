@@ -20,15 +20,13 @@
         max[i] = 0;
       }
       diff.push(Math.abs(a - b));
-      logOffset.push(diff[i]/Math.log2(steps));
+      //for log curve functionality
+      var totalSteps = Math.log2(steps);
+      logOffset.push(diff[i]/totalSteps);
     }
 
     var result = [];
 
-    //log curve functionality
-    var maxDiff = Math.max(diff[0],diff[1]);
-    maxDiff = Math.max(diff[2], maxDiff);
-    var totalSteps = Math.log2(steps);
     for (var i = 1; i <= steps; i++) {
       curStep = ['#'];
       for (var j = 0; j < 3; j++) {
