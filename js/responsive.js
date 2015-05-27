@@ -3,7 +3,7 @@
     window.mazeSolver = {};
   }
 
-  css = mazeSolver.css = {}
+  var css = mazeSolver.css = {}
 
   css.initialize = function () {
     css.queryViewport();

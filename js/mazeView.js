@@ -3,7 +3,7 @@
     window.mazeSolver = {};
   }
 
-  MazeView = mazeSolver.MazeView = function (maze) {
+  var MazeView = mazeSolver.MazeView = function (maze) {
     this.maze = maze;
     this.setCellSize();
     this.render();

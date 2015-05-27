@@ -3,7 +3,7 @@
     window.mazeSolver = {};
   }
 
-  Node = mazeSolver.Node = function (data, next) {
+  var Node = mazeSolver.Node = function (data, next) {
     this.data = data;
     this.nextNode = next;
   }

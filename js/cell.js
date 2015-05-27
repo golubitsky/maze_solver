@@ -3,7 +3,7 @@
     window.mazeSolver = {};
   }
 
-  Cell = mazeSolver.Cell = function (y,x) {
+  var Cell = mazeSolver.Cell = function (y,x) {
     //up right down left
     this.y = y;
     this.x = x;
