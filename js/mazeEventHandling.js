@@ -27,8 +27,8 @@
       var y = document.getElementById('y-dimension-value').innerHTML;
     }
 
-    css.queryViewport();
-    css.sizeBoxes();
+    mazeSolver.css.queryViewport();
+    mazeSolver.css.sizeBoxes();
     mazeSolver.maze = new mazeSolver.Maze(y, x);
     mazeSolver.view = new mazeSolver.MazeView(mazeSolver.maze);
   }
