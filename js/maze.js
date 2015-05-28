@@ -15,7 +15,7 @@
     for (var y = 0; y < this.y; y++) {
       var row = [];
       for (var x = 0; x < this.x; x++) {
-        row.push(new Cell(y, x));
+        row.push(new mazeSolver.Cell(y, x));
       }
       dataStore.push(row)
     }
